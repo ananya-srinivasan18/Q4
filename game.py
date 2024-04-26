@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Apr 23 09:11:47 2024
+
+@author: asrinivasan26
+"""
+
 from tkinter import *
 import random
 import time
@@ -122,6 +129,12 @@ class PlatformSprite(Sprite): #sets the platform sprite up to have access to all
         self.photo_image = photo_image #save photo as variable
         self.image = game.canvas.create_image(x, y, image=self.photo_image, anchor = 'nw') #print photo (of platform)
         self.coordinates = Coords(x, y, x + width, y + height) #contains location of platform
+
+class StickFigureSprite(Sprite):
+    def __init__(self, game):
+        Sprite.__init__(self, game) #no additional parameters because there's only one sprite
+        #loads three left images and three right images:
+        #** COME BACK TO THIS PART:            self.images_left = 
 
 g = Game()
 #calling on the image of the platform and positioning them
