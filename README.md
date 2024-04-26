@@ -4,19 +4,19 @@ Quarter 4 Project
 #GAME
 
 #Week 1:
-- pg 235 ✅
+- pg 250 ✅
 
 #Week 2:
-- Get up to page 250 (background+platforms) ✅
+- Get up to page 258 
 
 #Week 3:
-- 258 (animate char)
+- up to 272 (animate char)
 
 #Week 4:
-- 272
+- 282
 
 #Week 5:
-- 282
+- Adding extra gimmicks like moving platforms, etc
 
 #Week 6+7:
 - Final touches, adding more levels if time
