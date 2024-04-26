@@ -7,7 +7,7 @@ Quarter 4 Project
 - pg 235 ✅
 
 #Week 2:
-- Get up to page 250 (background mechanics) ✅
+- Get up to page 250 (background+platforms) ✅
 
 #Week 3:
 - 258 (animate char)
