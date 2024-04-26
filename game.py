@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr 23 09:11:47 2024
-
-@author: asrinivasan26
-"""
-
 from tkinter import *
 import random
 import time
@@ -131,6 +124,26 @@ class PlatformSprite(Sprite): #sets the platform sprite up to have access to all
         self.coordinates = Coords(x, y, x + width, y + height) #contains location of platform
 
 g = Game()
-platform1 = PlatformSprite(g, PhotoImage(file = 'P1 FINAL.gif'), 0, 480, 100, 10)
+#calling on the image of the platform and positioning them
+platform1 = PlatformSprite(g, PhotoImage(file = 'P1_FINAL-removebg-preview.gif'), 0, 480, 100, 10)
+platform2 = PlatformSprite(g, PhotoImage(file = 'P1_FINAL-removebg-preview.gif'), 150, 440, 100, 10)
+platform3 = PlatformSprite(g, PhotoImage(file = 'P1_FINAL-removebg-preview.gif'), 300, 400, 100, 10)
+platform4 = PlatformSprite(g, PhotoImage(file = 'P1_FINAL-removebg-preview.gif'), 300, 160, 100, 10)
+platform5 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 175, 350, 66, 10)
+platform6 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 50, 300, 66, 10)
+platform7 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 170, 120, 66, 10)
+platform8 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 45, 60, 66, 10)
+platform9 = PlatformSprite(g, PhotoImage(file = 'P3_FINAL-removebg-preview.gif'), 170, 250, 32, 10)
+platform10 = PlatformSprite(g, PhotoImage(file = 'P3_FINAL-removebg-preview.gif'), 230, 200, 32, 10)
+#putting them in Sprites category
 g.sprites.append(platform1)
+g.sprites.append(platform2)
+g.sprites.append(platform3)
+g.sprites.append(platform4)
+g.sprites.append(platform5)
+g.sprites.append(platform6)
+g.sprites.append(platform7)
+g.sprites.append(platform8)
+g.sprites.append(platform9)
+g.sprites.append(platform10)
 g.mainloop()
