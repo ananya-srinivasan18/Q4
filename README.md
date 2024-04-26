@@ -4,10 +4,10 @@ Quarter 4 Project
 #GAME
 
 #Week 1:
-- pg 235
+- pg 235 ✅
 
 #Week 2:
-- Get up to page 250 (background mechanics)
+- Get up to page 250 (background mechanics) ✅
 
 #Week 3:
 - 258 (animate char)
