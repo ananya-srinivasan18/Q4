@@ -7,7 +7,7 @@ Week 1:
 - pg 250 ✅
 
 Week 2:
-- Get up to page 258 
+- Get up to page 258 ✅
 
 Week 3:
 - up to 272 (animate char)
