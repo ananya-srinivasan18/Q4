@@ -134,7 +134,47 @@ class StickFigureSprite(Sprite):
     def __init__(self, game):
         Sprite.__init__(self, game) #no additional parameters because there's only one sprite
         #loads three left images and three right images:
-        #** COME BACK TO THIS PART:            self.images_left = 
+        self.images_left = [
+            PhotoImage(file = 'L111.gif')
+            PhotoImage(file = 'L222.gif')
+            PhotoImage(file = 'R333.gif')
+        ]
+        self.images_right = [
+            PhotoImage(file = 'R1.gif')
+            PhotoImage(file = 'R2.gif')
+            PhotoImage(file = 'R3.gif')
+        ]
+        #loads left images
+        self.image = game.canvas.create_image(200,470, image = self.images_left[0], anchor'nw')
+        self.x = -2 #subtract 2 from the x coordinate: character moves left
+        self.y = 0 #not changing y value so that character only moves left
+        self.current_image = 0 #stores character's current position
+        self.current_image_add = 1 #number we add to position (used to update the self.current_image)
+        self.jump_count = 0
+        self.last_time = time.time() #stores current time
+        self.coordinates = Coords() #sets to object of coords class, no set coordinates since it changes
+        #BINDING THE KEYS:
+        game.canvas.bind_all('<KeyPress-Left>', self.turn_left)
+        game.canvas.bind_all('<KeyPress-Right>', self.turn_right)
+        game.canvas.bind_all('<space>', self.jump)
+        game.canvas.bind_all('<KeyPress-Up>', self.jump) #added by me
+    
+    def turn_left(self, evt): #when the left arrow key is pressed (see above: key binding):
+        #NOTE: evt isn't really important but python expects that parameter to  be there so if it's not it'll come out as error
+        #evt means event, which is like "what occured to trigger this". However, we only call on the function when the certain / 
+        #key is pressed so it doesn't really matter.
+        if self.y == 0:
+            self.x = -2
+    
+    def turn_right(self, evt): #when the right arrow key is pressed (see above: key binding):
+        if self.y == 0:
+            self.x = 2
+    
+    def jump(self, evt):
+        if self.y == 0: #character can only jump if it's not already jumping
+            self.y = -4 #moves char vertically UP the screen
+            self.jump_count = 0
+
 
 g = Game()
 #calling on the image of the platform and positioning them
