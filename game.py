@@ -174,6 +174,58 @@ class StickFigureSprite(Sprite):
         if self.y == 0: #character can only jump if it's not already jumping
             self.y = -4 #moves char vertically UP the screen
             self.jump_count = 0
+    
+    def animate(self):
+        if self.x != 0 and self.y == 0: #is char moving but not jumping? if so, animate. otherwise there's no need (since he's standing still)
+        #if char not moving, the rest of this def won't occur. 
+            if time.time() - self.last_time > 0.1: #is the amount of time since the animate function was last called enough to continue animating?
+                self.last_time = time.time() #resets time to add next image
+                self.current_image += self.current_image_add #adds variables
+                if self.current_image >= 2:
+                    self.current_image_add = -1 #so it goes from image 0 to image 1 to image 2 then back to image 1 etc
+                if self.current_image <= 0: #so it goes from image 2 to image 1 to image 0 then back to image 1
+                    self.current_image_add = 1
+        if self.x < 0: #if x is less than 0, char is moving left
+            if self.y != 0:
+                self.game.canvas.itemconfig(self.image, image = self.images_left[2])#if y isn't 0, it's jumping- so use image of char jumping(long stride)
+            else: 
+                self.game.canvas.itemconfig(self.image, image = self.images_left[self.current_image])#not jumping(y=0)displays index of variable(next line) 
+                # current image's position
+            elif self.x > 0: #same as code for left
+                if self.y != 0:
+                    self.game.canvas.itemconfig(self.image, image = self.images_right[2])
+            else:
+                self.game.canvas.itemconfig(self.image, image = self.images_right[self.current_image])
+                
+    def coords(self): #returns coordinates of char since it's always moving around
+        xy = self.game.canvas.coords(self.image)  #stores coordinates
+        self.coordinates.x1 = xy[0]
+        self.coordinates.y1 = xy[1]
+        self.coordinates.x2 = xy[0] + 27 #27 px wide
+        self.coordinates.y2 = xy[1] + 30 #30 px tall
+        return self.coordinates
+    
+    def move(self):
+        self.animate()
+        if self.y < 0: #negative y value = going up = jumping
+            self.jump_count += 1
+            if self.jump_count > 20:
+                self.y = 4 #so that the char starts falling again
+        if self.y > 0: #positive y value = going down = character is falling
+            self.jump_count -= 1 #need to count back after counting to 20
+        co = self.coords()
+        left = True
+        right = True
+        top = True
+        bottom = True
+        falling = True
+        #indicators to check whether char is hitting smth or falling (above)
+        if self.y > 0 and co.y2 >= self.game.canvas_height: #make sure that although it's falling it doesn't hit bottom otherwise it would vanish offscreen
+            self.y = 0 #sets y to 0 to stop char from falling when hits bottom
+            bottom = False
+        elif self.y < 0  and co.y1 <= 0:
+            self.y = 0
+            top = False
 
 
 g = Game()
