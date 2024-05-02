@@ -205,6 +205,8 @@ class StickFigureSprite(Sprite):
         self.coordinates.y2 = xy[1] + 30 #30 px tall
         return self.coordinates
     
+# ***** IMPORTANT: if x > 0 , char moving right. If x < 0, char moving left. If y > 0, char falling. If y < 0, char moving up (jumping)
+
     def move(self):
         self.animate()
         if self.y < 0: #negative y value = going up = jumping
@@ -225,8 +227,44 @@ class StickFigureSprite(Sprite):
             bottom = False
         elif self.y < 0  and co.y1 <= 0:
             self.y = 0
-            top = False
-
+            top = False #top = false means char has hit the top
+        #check if hitting left/right of canvas
+        if self.x > 0 and co2.x2 >= self.game.canvas_width: #hitting right?
+            self.x = 0
+            right = False
+        elif self.x < 0 and co1.x1 <= 0: #hitting left?
+            self.x = 0
+            left = False
+        #check if hitting other sprite
+        for sprite in self.game.sprites: #for each sprite:
+            if sprite == self: #if sprite is same as me (meaning we don't have to check for collisions; sprite only hit himself):
+                continue#move onto next sprite
+            sprite_co = sprite.coords() #gets coordinates of sprite and storing it
+            if top and self.y < 0 and collided_top(co, sprite_co): #if char hasn't hit top (top = True) and figure is still jumping (y<0) and top of
+            # / char has collided with sprite:
+                self.y = -self.y #sprite has to fall down
+                top = False #once char has hit the top no need to check for collisions with sprite again
+            if bottom and self.y > 0 and collided_bottom(self.y, co, sprite_co): #if char is falling (y>0) and char is touching bottom:
+                self.y = sprite_co.y1 - co.y2 #how much char should drop to meet platform and make sure it doesn't stop above or below
+                if self.y < 0:
+                    self.y = 0 #make sure calculation isn't a negative number, otherwise it would disappear; set y = 0 if that's true
+                bottom = False
+                top = False #no longer need to check if stick figure has collided top or bottom
+            if bottom and falling and self.y == 0 and co.y2 < self.game.canvas_height and collided_bottom (1, co, sprite_co):
+                falling = False #if all of these are true, char is NOT falling so set falling to false
+            if left and self.x < 0 and collided_left(co, sprite_co): #Should we be looking for collisions? and is char moving left? and did the char 
+            # / collide with another sprite?
+                self.x = 0 #char stops running
+                left = False #stop checking for collisions on left
+            if right and self.x > 0 and collided_right(co, sprite_co): #same thing as left
+                self.x = 0
+                right = False
+        if falling and bottom and self.y == 0 and co.y2 < self.game.canvas_height: #if falling and bottom are both true, then we've looped through /
+        # evey sprite on the liste without colliding at bottom. Final check: is bottom less than canvas height (above the ground)? That means he needs  / 
+        # to start falling since he's standing in midair AND the previous things already establish he's not touching a platform sprite
+            self.y = 4 #starts falling
+        self.game.canvas.move(self.image, self.x, self.y)
+            
 
 g = Game()
 #calling on the image of the platform and positioning them
