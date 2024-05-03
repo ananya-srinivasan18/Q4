@@ -135,17 +135,17 @@ class StickFigureSprite(Sprite):
         Sprite.__init__(self, game) #no additional parameters because there's only one sprite
         #loads three left images and three right images:
         self.images_left = [
-            PhotoImage(file = 'L111.gif')
-            PhotoImage(file = 'L222.gif')
+            PhotoImage(file = 'L111.gif'),
+            PhotoImage(file = 'L222.gif'),
             PhotoImage(file = 'R333.gif')
         ]
         self.images_right = [
-            PhotoImage(file = 'R1.gif')
-            PhotoImage(file = 'R2.gif')
+            PhotoImage(file = 'R1.gif'),
+            PhotoImage(file = 'R2.gif'),
             PhotoImage(file = 'R3.gif')
         ]
         #loads left images
-        self.image = game.canvas.create_image(200,470, image = self.images_left[0], anchor'nw')
+        self.image = game.canvas.create_image(200,470, image = self.images_left[0], anchor='nw')
         self.x = -2 #subtract 2 from the x coordinate: character moves left
         self.y = 0 #not changing y value so that character only moves left
         self.current_image = 0 #stores character's current position
@@ -191,11 +191,11 @@ class StickFigureSprite(Sprite):
             else: 
                 self.game.canvas.itemconfig(self.image, image = self.images_left[self.current_image])#not jumping(y=0)displays index of variable(next line) 
                 # current image's position
-            elif self.x > 0: #same as code for left
+        elif self.x > 0: #same as code for left
                 if self.y != 0:
                     self.game.canvas.itemconfig(self.image, image = self.images_right[2])
-            else:
-                self.game.canvas.itemconfig(self.image, image = self.images_right[self.current_image])
+                else:
+                    self.game.canvas.itemconfig(self.image, image = self.images_right[self.current_image])
                 
     def coords(self): #returns coordinates of char since it's always moving around
         xy = self.game.canvas.coords(self.image)  #stores coordinates
@@ -229,10 +229,10 @@ class StickFigureSprite(Sprite):
             self.y = 0
             top = False #top = false means char has hit the top
         #check if hitting left/right of canvas
-        if self.x > 0 and co2.x2 >= self.game.canvas_width: #hitting right?
+        if self.x > 0 and co.x2 >= self.game.canvas_width: #hitting right?
             self.x = 0
             right = False
-        elif self.x < 0 and co1.x1 <= 0: #hitting left?
+        elif self.x < 0 and co.x1 <= 0: #hitting left?
             self.x = 0
             left = False
         #check if hitting other sprite
@@ -256,14 +256,26 @@ class StickFigureSprite(Sprite):
             # / collide with another sprite?
                 self.x = 0 #char stops running
                 left = False #stop checking for collisions on left
+                if sprite.endgame:
+                    self.game.running = False
             if right and self.x > 0 and collided_right(co, sprite_co): #same thing as left
                 self.x = 0
                 right = False
+                if sprite.endgame:
+                    self.game.running = False
         if falling and bottom and self.y == 0 and co.y2 < self.game.canvas_height: #if falling and bottom are both true, then we've looped through /
         # evey sprite on the liste without colliding at bottom. Final check: is bottom less than canvas height (above the ground)? That means he needs  / 
         # to start falling since he's standing in midair AND the previous things already establish he's not touching a platform sprite
             self.y = 4 #starts falling
         self.game.canvas.move(self.image, self.x, self.y)
+class DoorSprite(Sprite):
+    def __init__(self,game,photo_image,x,y,width,height):
+        Sprite.__init__(self,game)
+        self.photo_image = photo_image
+        self.image = game.canvas.create_image(x, y, image = self.photo_image, anchor = 'nw')
+        self.coordinates = Coords(x, y, x + (width/2), y + height) #sets x and y positions and calculates x2 and y2 positions. it's also width/2 since
+        # / we want char to stop running in FRONT of the door (when it hits x2, which will be at half of the door's width)
+        self.endgame = True #when stickman reaches door, game ends
             
 
 g = Game()
@@ -289,4 +301,8 @@ g.sprites.append(platform7)
 g.sprites.append(platform8)
 g.sprites.append(platform9)
 g.sprites.append(platform10)
+door = DoorSprite(g, PhotoImage(file = 'Doorclosed-removebg-preview.gif'), 45, 30, 40, 35)
+g.sprites.append(door)
+sf = StickFigureSprite(g)
+g.sprites.append(sf)
 g.mainloop()
