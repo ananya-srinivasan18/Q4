@@ -25,7 +25,7 @@ class Game:
         self.canvas_height = 500
         self.canvas_width = 500
         #uploads photo
-        self.bg = PhotoImage(file="Untitled_Artwork (1) (1).gif")
+        self.bg = PhotoImage(file="background.gif")
         #syncs them
         w = self.bg.width()
         h = self.bg.height()
@@ -140,9 +140,9 @@ class StickFigureSprite(Sprite):
             PhotoImage(file = 'R333.gif')
         ]
         self.images_right = [
-            PhotoImage(file = 'R1.gif'),
-            PhotoImage(file = 'R2.gif'),
-            PhotoImage(file = 'R3.gif')
+            PhotoImage(file = 'r1.gif'),
+            PhotoImage(file = 'r2.gif'),
+            PhotoImage(file = 'r3.gif')
         ]
         #loads left images
         self.image = game.canvas.create_image(200,470, image = self.images_left[0], anchor='nw')
@@ -262,7 +262,13 @@ class StickFigureSprite(Sprite):
                 self.x = 0
                 right = False
                 if sprite.endgame:
-                    self.game.running = False
+                    # Move the platforms around into new positions
+                    #self.game.running = False
+                    platform1.x1 = 15
+                    platform1.y1 = 100
+                    self.coordinates = 200,470
+                    # reset position of character 
+                    
         if falling and bottom and self.y == 0 and co.y2 < self.game.canvas_height: #if falling and bottom are both true, then we've looped through /
         # evey sprite on the liste without colliding at bottom. Final check: is bottom less than canvas height (above the ground)? That means he needs  / 
         # to start falling since he's standing in midair AND the previous things already establish he's not touching a platform sprite
