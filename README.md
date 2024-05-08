@@ -10,10 +10,10 @@ Week 2:
 - Get up to page 258 ✅
 
 Week 3:
-- up to 272 (animate char)
+- up to 272 (animate char) ✅
 
 Week 4:
-- 282
+- 282 ✅
 
 Week 5:
 - Adding extra gimmicks like moving platforms, etc
