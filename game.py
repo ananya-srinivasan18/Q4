@@ -12,7 +12,7 @@ import time
 class Game:
     def __init__(self):
         self.tk = Tk()
-        self.tk.title("Forest Run")
+        self.tk.title("leafblade Adventures")
         #can't resize window:
         self.tk.resizable (0,0)
         #Sets window to be the topmost window:
