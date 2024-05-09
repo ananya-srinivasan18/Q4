@@ -135,14 +135,14 @@ class StickFigureSprite(Sprite):
         Sprite.__init__(self, game) #no additional parameters because there's only one sprite
         #loads three left images and three right images:
         self.images_left = [
-            PhotoImage(file = 'L111.gif'),
-            PhotoImage(file = 'L222.gif'),
-            PhotoImage(file = 'R333.gif')
+            PhotoImage(file = 'l1.png'),
+            PhotoImage(file = 'l2.png'),
+            PhotoImage(file = 'output-onlinepngtools (3).png')
         ]
         self.images_right = [
-            PhotoImage(file = 'r1.gif'),
-            PhotoImage(file = 'r2.gif'),
-            PhotoImage(file = 'r3.gif')
+            PhotoImage(file = 'r1 (1).gif'),
+            PhotoImage(file = 'r2.png'),
+            PhotoImage(file = 'r3.png')
         ]
         #loads left images
         self.image = game.canvas.create_image(200,470, image = self.images_left[0], anchor='nw')
