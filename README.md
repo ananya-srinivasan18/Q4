@@ -20,3 +20,6 @@ Week 5:
 
 Week 6+7:
 - Final touches, adding more levels if time
+
+
+CURRENTLY: finished basic game, I'm just finishing up the Mid-Quarter presentation right now
