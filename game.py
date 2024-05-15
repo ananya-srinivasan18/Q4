@@ -12,7 +12,7 @@ import time
 class Game:
     def __init__(self):
         self.tk = Tk()
-        self.tk.title("leafblade Adventures")
+        self.tk.title("Forest Adventures")
         #can't resize window:
         self.tk.resizable (0,0)
         #Sets window to be the topmost window:
@@ -36,6 +36,7 @@ class Game:
         #sets the variables (useful later)
         self.sprites = []
         self.running = True
+        self.testx = 0
 
     def mainloop(self):
         while 1:
@@ -43,6 +44,8 @@ class Game:
             if self.running == True:
                 for sprite in self.sprites:
                     sprite.move()
+                    self.sprites[7].update_position(self.testx,60)   # Move a platform!
+                    self.testx += 10
             self.tk.update_idletasks()
             self.tk.update()
             time.sleep(0.01)
@@ -129,6 +132,10 @@ class PlatformSprite(Sprite): #sets the platform sprite up to have access to all
         self.photo_image = photo_image #save photo as variable
         self.image = game.canvas.create_image(x, y, image=self.photo_image, anchor = 'nw') #print photo (of platform)
         self.coordinates = Coords(x, y, x + width, y + height) #contains location of platform
+        self.width = width 
+        self.height = height 
+    def update_position(self, x,y):
+        self.coordinates = Coords(x,y, x+self.width, y+self.height)
 
 class StickFigureSprite(Sprite):
     def __init__(self, game):
@@ -256,17 +263,19 @@ class StickFigureSprite(Sprite):
             # / collide with another sprite?
                 self.x = 0 #char stops running
                 left = False #stop checking for collisions on left
-                if sprite.endgame:
+                if self.endgame:
                     self.game.running = False
             if right and self.x > 0 and collided_right(co, sprite_co): #same thing as left
                 self.x = 0
                 right = False
-                if sprite.endgame:
+                if self.endgame:
                     # Move the platforms around into new positions
-                    #self.game.running = False
-                    platform1.x1 = 15
-                    platform1.y1 = 100
-                    self.coordinates = 200,470
+                    self.game.running = False
+                    
+                    platform1.coordinates = (15, 500, 100, 10)
+                    self.coordinates = (200, 470, 27, 30)
+                    self.mainloop()
+                    self.endgame = False
                     # reset position of character 
                     
         if falling and bottom and self.y == 0 and co.y2 < self.game.canvas_height: #if falling and bottom are both true, then we've looped through /
@@ -282,6 +291,10 @@ class DoorSprite(Sprite):
         self.coordinates = Coords(x, y, x + (width/2), y + height) #sets x and y positions and calculates x2 and y2 positions. it's also width/2 since
         # / we want char to stop running in FRONT of the door (when it hits x2, which will be at half of the door's width)
         self.endgame = True #when stickman reaches door, game ends
+        print("REACHED END OF GAME")
+        
+#if self.endgame:
+    
             
 
 g = Game()
@@ -293,7 +306,7 @@ platform4 = PlatformSprite(g, PhotoImage(file = 'P1_FINAL-removebg-preview.gif')
 platform5 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 175, 350, 66, 10)
 platform6 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 50, 300, 66, 10)
 platform7 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 170, 120, 66, 10)
-platform8 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 45, 60, 66, 10)
+platform8 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif'), 45, 60, 66, 10)   # 45, 60, 66, 10
 platform9 = PlatformSprite(g, PhotoImage(file = 'P3_FINAL-removebg-preview.gif'), 170, 250, 32, 10)
 platform10 = PlatformSprite(g, PhotoImage(file = 'P3_FINAL-removebg-preview.gif'), 230, 200, 32, 10)
 #putting them in Sprites category
@@ -307,8 +320,24 @@ g.sprites.append(platform7)
 g.sprites.append(platform8)
 g.sprites.append(platform9)
 g.sprites.append(platform10)
+g.sprites[7].x = 200
 door = DoorSprite(g, PhotoImage(file = 'Doorclosed-removebg-preview.gif'), 45, 30, 40, 35)
 g.sprites.append(door)
 sf = StickFigureSprite(g)
 g.sprites.append(sf)
 g.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
