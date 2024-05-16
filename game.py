@@ -36,16 +36,14 @@ class Game:
         #sets the variables (useful later)
         self.sprites = []
         self.running = True
-        self.testx = 0
+        #self.testx = 0
 
     def mainloop(self):
         while 1:
             #while the game is running, if the sprite is also running, then trigger the functions
-            if self.running == True:
+            if self.running:
                 for sprite in self.sprites:
-                    sprite.move()
-                    self.sprites[7].update_position(self.testx,60)   # Move a platform!
-                    self.testx += 10
+                    sprite.move()                    
             self.tk.update_idletasks()
             self.tk.update()
             time.sleep(0.01)
@@ -134,8 +132,13 @@ class PlatformSprite(Sprite): #sets the platform sprite up to have access to all
         self.coordinates = Coords(x, y, x + width, y + height) #contains location of platform
         self.width = width 
         self.height = height 
+        self.game = game 
     def update_position(self, x,y):
+        test.x = 0
         self.coordinates = Coords(x,y, x+self.width, y+self.height)
+        self.sprites[7].update_position(self.testx,60)# Move a platform!
+        self.image = self. game.canvas.create_image(x, y, image=self.photo_image, anchor = 'nw') #print photo (of platform)
+        
 
 class StickFigureSprite(Sprite):
     def __init__(self, game):
@@ -291,9 +294,9 @@ class DoorSprite(Sprite):
         self.coordinates = Coords(x, y, x + (width/2), y + height) #sets x and y positions and calculates x2 and y2 positions. it's also width/2 since
         # / we want char to stop running in FRONT of the door (when it hits x2, which will be at half of the door's width)
         self.endgame = True #when stickman reaches door, game ends
-        print("REACHED END OF GAME")
         
-#if self.endgame:
+        
+
     
             
 
@@ -320,14 +323,16 @@ g.sprites.append(platform7)
 g.sprites.append(platform8)
 g.sprites.append(platform9)
 g.sprites.append(platform10)
-g.sprites[7].x = 200
+#g.sprites[7].x = 200
 door = DoorSprite(g, PhotoImage(file = 'Doorclosed-removebg-preview.gif'), 45, 30, 40, 35)
 g.sprites.append(door)
 sf = StickFigureSprite(g)
 g.sprites.append(sf)
 g.mainloop()
 
-
+if self.endgame:
+    platform2.x = 200
+    
 
 
 
