@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr 23 09:11:47 2024
+Created on Fri May 24 09:16:01 2024
 
 @author: asrinivasan26
 """
@@ -118,7 +118,7 @@ class Sprite:
     def __init__(self, game):#sprites will be able to access list of other sprites
         self.game = game #store game parameter as object (variable)
         self.endgame = False #used to indicate end of game (currently false because the game isn't over)
-        self.coordinates = None 
+        self.coordinates = None
     def move(self):
         pass
     def coords(self):
@@ -130,15 +130,15 @@ class PlatformSprite(Sprite): #sets the platform sprite up to have access to all
         self.photo_image = photo_image #save photo as variable
         self.image = game.canvas.create_image(x, y, image=self.photo_image, anchor = 'nw') #print photo (of platform)
         self.coordinates = Coords(x, y, x + width, y + height) #contains location of platform
-        self.width = width 
-        self.height = height 
-        self.game = game 
-    def update_position(self, x,y):
-        test.x = 0
-        self.coordinates = Coords(x,y, x+self.width, y+self.height)
-        self.sprites[7].update_position(self.testx,60)# Move a platform!
-        self.image = self. game.canvas.create_image(x, y, image=self.photo_image, anchor = 'nw') #print photo (of platform)
-        
+        self.width = width
+        self.height = height
+        self.game = game
+    #def update_position(self, x,y):
+       # test.x = 0
+        #self.coordinates = Coords(x,y, x+self.width, y+self.height)
+       # self.sprites[7].update_position(self.testx,60)# Move a platform!
+       # self.image = self. game.canvas.create_image(x, y, image=self.photo_image, anchor = 'nw') #print photo (of platform)
+       
 
 class StickFigureSprite(Sprite):
     def __init__(self, game):
@@ -168,26 +168,26 @@ class StickFigureSprite(Sprite):
         game.canvas.bind_all('<KeyPress-Right>', self.turn_right)
         game.canvas.bind_all('<space>', self.jump)
         game.canvas.bind_all('<KeyPress-Up>', self.jump) #added by me
-    
+   
     def turn_left(self, evt): #when the left arrow key is pressed (see above: key binding):
         #NOTE: evt isn't really important but python expects that parameter to  be there so if it's not it'll come out as error
-        #evt means event, which is like "what occured to trigger this". However, we only call on the function when the certain / 
+        #evt means event, which is like "what occured to trigger this". However, we only call on the function when the certain /
         #key is pressed so it doesn't really matter.
         if self.y == 0:
             self.x = -2
-    
+   
     def turn_right(self, evt): #when the right arrow key is pressed (see above: key binding):
         if self.y == 0:
             self.x = 2
-    
+   
     def jump(self, evt):
         if self.y == 0: #character can only jump if it's not already jumping
             self.y = -4 #moves char vertically UP the screen
             self.jump_count = 0
-    
+   
     def animate(self):
         if self.x != 0 and self.y == 0: #is char moving but not jumping? if so, animate. otherwise there's no need (since he's standing still)
-        #if char not moving, the rest of this def won't occur. 
+        #if char not moving, the rest of this def won't occur.
             if time.time() - self.last_time > 0.1: #is the amount of time since the animate function was last called enough to continue animating?
                 self.last_time = time.time() #resets time to add next image
                 self.current_image += self.current_image_add #adds variables
@@ -198,15 +198,15 @@ class StickFigureSprite(Sprite):
         if self.x < 0: #if x is less than 0, char is moving left
             if self.y != 0:
                 self.game.canvas.itemconfig(self.image, image = self.images_left[2])#if y isn't 0, it's jumping- so use image of char jumping(long stride)
-            else: 
-                self.game.canvas.itemconfig(self.image, image = self.images_left[self.current_image])#not jumping(y=0)displays index of variable(next line) 
+            else:
+                self.game.canvas.itemconfig(self.image, image = self.images_left[self.current_image])#not jumping(y=0)displays index of variable(next line)
                 # current image's position
         elif self.x > 0: #same as code for left
                 if self.y != 0:
                     self.game.canvas.itemconfig(self.image, image = self.images_right[2])
                 else:
                     self.game.canvas.itemconfig(self.image, image = self.images_right[self.current_image])
-                
+               
     def coords(self): #returns coordinates of char since it's always moving around
         xy = self.game.canvas.coords(self.image)  #stores coordinates
         self.coordinates.x1 = xy[0]
@@ -214,7 +214,7 @@ class StickFigureSprite(Sprite):
         self.coordinates.x2 = xy[0] + 27 #27 px wide
         self.coordinates.y2 = xy[1] + 30 #30 px tall
         return self.coordinates
-    
+   
 # ***** IMPORTANT: if x > 0 , char moving right. If x < 0, char moving left. If y > 0, char falling. If y < 0, char moving up (jumping)
 
     def move(self):
@@ -262,27 +262,44 @@ class StickFigureSprite(Sprite):
                 top = False #no longer need to check if stick figure has collided top or bottom
             if bottom and falling and self.y == 0 and co.y2 < self.game.canvas_height and collided_bottom (1, co, sprite_co):
                 falling = False #if all of these are true, char is NOT falling so set falling to false
-            if left and self.x < 0 and collided_left(co, sprite_co): #Should we be looking for collisions? and is char moving left? and did the char 
+            if left and self.x < 0 and collided_left(co, sprite_co): #Should we be looking for collisions? and is char moving left? and did the char
             # / collide with another sprite?
                 self.x = 0 #char stops running
                 left = False #stop checking for collisions on left
-                if self.endgame:
-                    self.game.running = False
+               # if self.endgame:
+                    #self.game.running = False
             if right and self.x > 0 and collided_right(co, sprite_co): #same thing as left
                 self.x = 0
                 right = False
-                if self.endgame:
-                    # Move the platforms around into new positions
-                    self.game.running = False
-                    
-                    platform1.coordinates = (15, 500, 100, 10)
-                    self.coordinates = (200, 470, 27, 30)
-                    self.mainloop()
-                    self.endgame = False
-                    # reset position of character 
-                    
+                
+                    # reset position of character
+                   
+        ### JED EDIT
+        # Check specifically for collision with door
+        door = self.game.sprites[10]
+        door_x = door.coordinates.x1
+        door_y = door.coordinates.y1
+        door_distance_squared = (door_x-self.coordinates.x1)*(door_x-self.coordinates.x1) + (door_y-self.coordinates.y1)*(door_y-self.coordinates.y1)
+        #print(door_distance)
+        if door_distance_squared < 400:
+            # If this is true, we reached the door
+            self.endgame = True
+            print("You won!")
+            self.coordinates.x1 = 198
+            self.coordinates.y1 = 390
+           
+            self.game.canvas.move(self.image, 120, 360)
+            
+            self.game.canvas.move(self.game.sprites[0].image, 100, -20)
+            self.game.sprites[0].coordinates.x1 = 100
+            self.game.sprites[0].coordinates.y1 = 460
+            self.game.running = True
+           
+            #self.move(self.coordinates.x1, self.coordinates.y1)
+           
+                   
         if falling and bottom and self.y == 0 and co.y2 < self.game.canvas_height: #if falling and bottom are both true, then we've looped through /
-        # evey sprite on the liste without colliding at bottom. Final check: is bottom less than canvas height (above the ground)? That means he needs  / 
+        # evey sprite on the liste without colliding at bottom. Final check: is bottom less than canvas height (above the ground)? That means he needs  /
         # to start falling since he's standing in midair AND the previous things already establish he's not touching a platform sprite
             self.y = 4 #starts falling
         self.game.canvas.move(self.image, self.x, self.y)
@@ -294,11 +311,11 @@ class DoorSprite(Sprite):
         self.coordinates = Coords(x, y, x + (width/2), y + height) #sets x and y positions and calculates x2 and y2 positions. it's also width/2 since
         # / we want char to stop running in FRONT of the door (when it hits x2, which will be at half of the door's width)
         self.endgame = True #when stickman reaches door, game ends
-        
-        
+       
+       
 
-    
-            
+   
+           
 
 g = Game()
 #calling on the image of the platform and positioning them
@@ -313,16 +330,16 @@ platform8 = PlatformSprite(g, PhotoImage(file = 'P2_FINAL-removebg-preview.gif')
 platform9 = PlatformSprite(g, PhotoImage(file = 'P3_FINAL-removebg-preview.gif'), 170, 250, 32, 10)
 platform10 = PlatformSprite(g, PhotoImage(file = 'P3_FINAL-removebg-preview.gif'), 230, 200, 32, 10)
 #putting them in Sprites category
-g.sprites.append(platform1)
-g.sprites.append(platform2)
-g.sprites.append(platform3)
-g.sprites.append(platform4)
-g.sprites.append(platform5)
-g.sprites.append(platform6)
-g.sprites.append(platform7)
-g.sprites.append(platform8)
-g.sprites.append(platform9)
-g.sprites.append(platform10)
+g.sprites.append(platform1)  # 0
+g.sprites.append(platform2)  # 1
+g.sprites.append(platform3)  # 2
+g.sprites.append(platform4)  # 3
+g.sprites.append(platform5)  # 4
+g.sprites.append(platform6)  # 5
+g.sprites.append(platform7)  # 6
+g.sprites.append(platform8)  # 7
+g.sprites.append(platform9)  # 8
+g.sprites.append(platform10) # 9
 #g.sprites[7].x = 200
 door = DoorSprite(g, PhotoImage(file = 'Doorclosed-removebg-preview.gif'), 45, 30, 40, 35)
 g.sprites.append(door)
@@ -332,17 +349,3 @@ g.mainloop()
 
 if self.endgame:
     platform2.x = 200
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
