@@ -9,6 +9,8 @@ from tkinter import *
 import random
 import time
 
+#POSSIBLY FIGURED OUT HOW TO CHANGE THE POSITION OF THE PLATFORMS??????????
+
 class Game:
     def __init__(self):
         self.tk = Tk()
