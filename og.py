@@ -4,7 +4,7 @@ Created on Tue May 28 09:24:34 2024
 
 @author: asrinivasan26
 """
-
+#TRYING TO ADD DIFFERENT GIMMICKS LIKE MOVING PLATFORMS AND A YOU WIN SCREEN
 from tkinter import *
 import random
 import time
