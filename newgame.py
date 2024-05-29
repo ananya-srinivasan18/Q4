@@ -5,11 +5,11 @@ Created on Fri May 24 09:16:01 2024
 @author: asrinivasan26
 """
 
+# FIGURED OUT HOW TO MOVE THE PLATFORMS
+
 from tkinter import *
 import random
 import time
-
-#POSSIBLY FIGURED OUT HOW TO CHANGE THE POSITION OF THE PLATFORMS??????????
 
 class Game:
     def __init__(self):
@@ -310,7 +310,25 @@ class StickFigureSprite(Sprite):
             self.game.canvas.move(self.game.sprites[0].image, 100, -20)
             self.game.sprites[0].move()
             
+            
+            self.game.sprites[2].coordinates = Coords(450, 400, 100, 10)
+            self.game.sprites[2].height = 10
+            self.game.sprites[2].width = 100
+            self.game.sprites[2].coordinates.x1 = 410
+            self.game.sprites[2].coordinates.y1 = 440
+            self.game.sprites[2].coordinates.x2 = 450 + self.game.sprites[0].width
+            self.game.sprites[2].coordinates.y2 = 440 + self.game.sprites[0].height
+            self.game.canvas.move(self.game.sprites[2].image, 110, 40)
+            self.game.sprites[2].move()
+            
+            self.game.tk.update_idletasks()
+            
+            win_counter = 0
+            win_counter += 1
             self.game.running = True
+            
+            
+            
            
             #self.move(self.coordinates.x1, self.coordinates.y1)
            
