@@ -4,7 +4,9 @@ Created on Tue May 28 09:24:34 2024
 
 @author: asrinivasan26
 """
-#TRYING TO ADD DIFFERENT GIMMICKS LIKE MOVING PLATFORMS AND A YOU WIN SCREEN
+
+# DIFFERENT GIMMICKS LIKE MOVING PLATFORMS AND END GAME SCREEN
+
 from tkinter import *
 import random
 import time
@@ -161,12 +163,12 @@ class MovingSprite(Sprite):
 
     def move(self):
         if time.time() - self.last_time > 0.03:
-        self.last_time = time.time()
-        self.game.canvas.move(self.image, self.x, 0)
-        self.counter += 1
-        if self.counter > 20:
-        self.x *= -1
-        self.counter = 0
+            self.last_time = time.time()
+            self.game.canvas.move(self.image, self.x, 0)
+            self.counter += 1
+            if self.counter > 20:
+                self.x *= -1
+                self.counter = 0
        
 
 class StickFigureSprite(Sprite):
@@ -232,7 +234,7 @@ class StickFigureSprite(Sprite):
                 # current image's position
         elif self.x > 0: #same as code for left
                 if self.y != 0:
-                    self.game.canvas.itemconfig(self.image, image = self.images_right[2])
+                    self.game.canvas.itemconfig(self.image, image = self.images_right[1])
                 else:
                     self.game.canvas.itemconfig(self.image, image = self.images_right[self.current_image])
                
@@ -301,7 +303,7 @@ class StickFigureSprite(Sprite):
                 self.x = 0
                 right = False
                 if sprite.endgame:
-                    self.game.running = False
+                    self.end(sprite)
                     # reset position of character
                   
            
@@ -311,14 +313,32 @@ class StickFigureSprite(Sprite):
         # to start falling since he's standing in midair AND the previous things already establish he's not touching a platform sprite
             self.y = 4 #starts falling
         self.game.canvas.move(self.image, self.x, self.y)
+        
+    def end(self, sprite):
+        self.game.running = False
+        sprite.opendoor()
+        time.sleep(1)
+        self.game.canvas.itemconfig(self.image, state='hidden')
+        sprite.closedoor()
+        
 class DoorSprite(Sprite):
     def __init__(self,game,photo_image,x,y,width,height):
         Sprite.__init__(self,game)
-        self.photo_image = photo_image
-        self.image = game.canvas.create_image(x, y, image = self.photo_image, anchor = 'nw')
+       # self.photo_image = photo_image
+       # self.image = game.canvas.create_image(x, y, image = self.photo_image, anchor = 'nw')
+        self.closed_door = PhotoImage(file = 'Doorclosed-removebg-preview.gif')
+        self.open_door = PhotoImage(file = 'door_open-removebg-preview.gif')
+        self.image = game.canvas.create_image(x, y, image = self.closed_door, anchor = 'nw')
         self.coordinates = Coords(x, y, x + (width/2), y + height) #sets x and y positions and calculates x2 and y2 positions. it's also width/2 since
         # / we want char to stop running in FRONT of the door (when it hits x2, which will be at half of the door's width)
         self.endgame = True #when stickman reaches door, game ends
+    def opendoor(self):
+        self.game.canvas.itemconfig(self.image, image=self.open_door)
+        self.game.tk.update_idletasks()
+    def closedoor(self):
+        self.game.canvas.itemconfig(self.image,image=self.closed_door)
+        self.game.tk.update_idletasks()
+
        
        
 
