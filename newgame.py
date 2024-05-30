@@ -4,7 +4,8 @@ Created on Fri May 24 09:16:01 2024
 
 @author: asrinivasan26
 """
-#FIGURED OUT HOW TO MOVE THE PLATFORMS
+
+#MOVES PLATFORMS, AND STOPS AFTER SECOND TIME WITH YOU WIN SCREEN
 
 from tkinter import *
 import random
@@ -169,6 +170,7 @@ class StickFigureSprite(Sprite):
         self.jump_count = 0
         self.last_time = time.time() #stores current time
         self.coordinates = Coords() #sets to object of coords class, no set coordinates since it changes
+        self.win_counter = 0 
         #BINDING THE KEYS:
         game.canvas.bind_all('<KeyPress-Left>', self.turn_left)
         game.canvas.bind_all('<KeyPress-Right>', self.turn_right)
@@ -224,6 +226,7 @@ class StickFigureSprite(Sprite):
 # ***** IMPORTANT: if x > 0 , char moving right. If x < 0, char moving left. If y > 0, char falling. If y < 0, char moving up (jumping)
 
     def move(self):
+        
         self.animate()
         if self.y < 0: #negative y value = going up = jumping
             self.jump_count += 1
@@ -273,10 +276,12 @@ class StickFigureSprite(Sprite):
                 self.x = 0 #char stops running
                 left = False #stop checking for collisions on left
                 if self.endgame:
-                    self.game.running = False
+                    self.end(sprite)
             if right and self.x > 0 and collided_right(co, sprite_co): #same thing as left
                 self.x = 0
                 right = False
+                
+    
                 
                     # reset position of character
                    
@@ -381,15 +386,15 @@ class StickFigureSprite(Sprite):
             
             self.game.tk.update_idletasks()
             
-            win_counter = 0
-            win_counter += 1
+            
+            self.win_counter += 1
             self.game.running = True
             
-            if win_counter > 1:
+            if self.win_counter > 1:
                 self.endgame = True
                 self.game.running = False
-                
-            
+                #self.game.tk.destroy()
+                print("GAME OVER REACHED")
             
             
            
@@ -401,6 +406,17 @@ class StickFigureSprite(Sprite):
         # to start falling since he's standing in midair AND the previous things already establish he's not touching a platform sprite
             self.y = 4 #starts falling
         self.game.canvas.move(self.image, self.x, self.y)
+        
+        
+        
+        def end(self, sprite):
+            if win_counter > 1:
+                self.game.running = False
+                sprite.opendoor()
+                time.sleep(1)
+                self.game.canvas.itemconfig(self.image, state='hidden')
+                sprite.closedoor()
+        
 class DoorSprite(Sprite):
     def __init__(self,game,photo_image,x,y,width,height):
         Sprite.__init__(self,game)
@@ -416,6 +432,8 @@ class DoorSprite(Sprite):
     def closedoor(self):
         self.game.canvas.itemconfig(self.image,image=self.closed_door)
         self.game.tk.update_idletasks()
+        
+    
        
 
    
