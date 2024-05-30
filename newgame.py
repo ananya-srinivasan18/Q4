@@ -4,8 +4,7 @@ Created on Fri May 24 09:16:01 2024
 
 @author: asrinivasan26
 """
-
-# FIGURED OUT HOW TO MOVE THE PLATFORMS
+#FIGURED OUT HOW TO MOVE THE PLATFORMS
 
 from tkinter import *
 import random
@@ -38,6 +37,8 @@ class Game:
         #sets the variables (useful later)
         self.sprites = []
         self.running = True
+        self.game_over_text = self.canvas.create_text(250, 250, text='YOU WIN!', state='hidden')
+
         #self.testx = 0
 
     def mainloop(self):
@@ -45,7 +46,10 @@ class Game:
             #while the game is running, if the sprite is also running, then trigger the functions
             if self.running:
                 for sprite in self.sprites:
-                    sprite.move()                    
+                    sprite.move() 
+            else: 
+                time.sleep(1)
+                self.canvas.itemconfig(self.game_over_text,state='normal')
             self.tk.update_idletasks()
             self.tk.update()
             time.sleep(0.01)
@@ -199,13 +203,13 @@ class StickFigureSprite(Sprite):
                     self.current_image_add = 1
         if self.x < 0: #if x is less than 0, char is moving left
             if self.y != 0:
-                self.game.canvas.itemconfig(self.image, image = self.images_left[2])#if y isn't 0, it's jumping- so use image of char jumping(long stride)
+                self.game.canvas.itemconfig(self.image, image = self.images_left[0])#if y isn't 0, it's jumping- so use image of char jumping(long stride)
             else:
                 self.game.canvas.itemconfig(self.image, image = self.images_left[self.current_image])#not jumping(y=0)displays index of variable(next line)
                 # current image's position
         elif self.x > 0: #same as code for left
                 if self.y != 0:
-                    self.game.canvas.itemconfig(self.image, image = self.images_right[2])
+                    self.game.canvas.itemconfig(self.image, image = self.images_right[0])
                 else:
                     self.game.canvas.itemconfig(self.image, image = self.images_right[self.current_image])
                
@@ -268,8 +272,8 @@ class StickFigureSprite(Sprite):
             # / collide with another sprite?
                 self.x = 0 #char stops running
                 left = False #stop checking for collisions on left
-               # if self.endgame:
-                    #self.game.running = False
+                if self.endgame:
+                    self.game.running = False
             if right and self.x > 0 and collided_right(co, sprite_co): #same thing as left
                 self.x = 0
                 right = False
@@ -286,8 +290,8 @@ class StickFigureSprite(Sprite):
         #print(door_distance)
         if door_distance_squared < 400:
             # If this is true, we reached the door
-            self.endgame = True
-            print("You won!")
+            #self.endgame = True
+            #print("You won!")
             self.coordinates.x1 = 198
             self.coordinates.y1 = 390
            
@@ -296,36 +300,95 @@ class StickFigureSprite(Sprite):
             
             #self.game.sprites[0].coordinates.x1 += 100
             #self.game.sprites[0].coordinates.y1 -= 20
-            self.game.sprites[0].coordinates = Coords(100, 460, 100, 10)
+            self.game.sprites[0].coordinates = Coords(400, 300, 100, 10)
             #self.game.sprites[0].width = 100
            # self.game.sprites[0].height = 10
             #self.game.sprites[0].x1 = 100
             #self.game.sprites[0].y1 = 460
             self.game.sprites[0].height = 10
             self.game.sprites[0].width = 100
-            self.game.sprites[0].coordinates.x1 = 100
-            self.game.sprites[0].coordinates.y1 = 460
-            self.game.sprites[0].coordinates.x2 = 100 + self.game.sprites[0].width
-            self.game.sprites[0].coordinates.y2 = 460 + self.game.sprites[0].height
-            self.game.canvas.move(self.game.sprites[0].image, 100, -20)
+            self.game.sprites[0].coordinates.x1 = 400
+            self.game.sprites[0].coordinates.y1 = 370
+            self.game.sprites[0].coordinates.x2 = 400 + self.game.sprites[0].width
+            self.game.sprites[0].coordinates.y2 = 370 + self.game.sprites[0].height
+            self.game.canvas.move(self.game.sprites[0].image, 400, -110)
             self.game.sprites[0].move()
             
             
-            self.game.sprites[2].coordinates = Coords(450, 400, 100, 10)
+            self.game.sprites[2].coordinates = Coords(325, 400, 100, 10)
             self.game.sprites[2].height = 10
             self.game.sprites[2].width = 100
-            self.game.sprites[2].coordinates.x1 = 410
-            self.game.sprites[2].coordinates.y1 = 440
-            self.game.sprites[2].coordinates.x2 = 450 + self.game.sprites[0].width
-            self.game.sprites[2].coordinates.y2 = 440 + self.game.sprites[0].height
-            self.game.canvas.move(self.game.sprites[2].image, 110, 40)
+            self.game.sprites[2].coordinates.x1 = 300
+            self.game.sprites[2].coordinates.y1 = 420
+            self.game.sprites[2].coordinates.x2 = 300 + self.game.sprites[2].width
+            self.game.sprites[2].coordinates.y2 = 420 + self.game.sprites[2].height
+            self.game.canvas.move(self.game.sprites[2].image, 0, 20)
             self.game.sprites[2].move()
+            
+            
+            self.game.sprites[3].coordinates = Coords(300, 70, 100, 10)
+            self.game.sprites[3].height = 10
+            self.game.sprites[3].width = 100
+            self.game.sprites[3].coordinates.x1 = 300
+            self.game.sprites[3].coordinates.y1 = 70
+            self.game.sprites[3].coordinates.x2 = 300 + self.game.sprites[3].width
+            self.game.sprites[3].coordinates.y2 = 70 + self.game.sprites[3].height
+            self.game.canvas.move(self.game.sprites[3].image, 0, -90)
+            self.game.sprites[3].move()
+            
+            
+            self.game.sprites[4].coordinates = Coords(330, 300, 66, 10)
+            self.game.sprites[4].height = 10
+            self.game.sprites[4].width = 66
+            self.game.sprites[4].coordinates.x1 = 330
+            self.game.sprites[4].coordinates.y1 = 300
+            self.game.sprites[4].coordinates.x2 = 330 + self.game.sprites[4].width
+            self.game.sprites[4].coordinates.y2 = 300 + self.game.sprites[4].height
+            self.game.canvas.move(self.game.sprites[4].image, 155, -50)
+            self.game.sprites[4].move()
+            
+            
+            self.game.sprites[5].coordinates = Coords(240, 240, 66, 10)
+            self.game.sprites[5].height = 10
+            self.game.sprites[5].width = 66
+            self.game.sprites[5].coordinates.x1 = 240
+            self.game.sprites[5].coordinates.y1 = 240
+            self.game.sprites[5].coordinates.x2 = 240 + self.game.sprites[5].width
+            self.game.sprites[5].coordinates.y2 = 240 + self.game.sprites[5].height
+            self.game.canvas.move(self.game.sprites[5].image, 190, -60)
+            self.game.sprites[5].move()
+            
+            self.game.sprites[8].coordinates = Coords(350, 170, 32, 10)
+            self.game.sprites[8].height = 10
+            self.game.sprites[8].width = 32
+            self.game.sprites[8].coordinates.x1 = 350
+            self.game.sprites[8].coordinates.y1 = 185            
+            self.game.sprites[8].coordinates.x2 = 350 + self.game.sprites[8].width
+            self.game.sprites[8].coordinates.y2 = 185 + self.game.sprites[8].height
+            self.game.canvas.move(self.game.sprites[8].image, 180, -65)
+            self.game.sprites[8].move()
+            
+            
+            self.game.sprites[9].coordinates = Coords(440, 130, 32, 10)
+            self.game.sprites[9].height = 10
+            self.game.sprites[9].width = 32
+            self.game.sprites[9].coordinates.x1 = 440
+            self.game.sprites[9].coordinates.y1 = 130            
+            self.game.sprites[9].coordinates.x2 = 440 + self.game.sprites[9].width
+            self.game.sprites[9].coordinates.y2 = 130 + self.game.sprites[9].height
+            self.game.canvas.move(self.game.sprites[9].image, 210, -70)
+            self.game.sprites[9].move()
             
             self.game.tk.update_idletasks()
             
             win_counter = 0
             win_counter += 1
             self.game.running = True
+            
+            if win_counter > 1:
+                self.endgame = True
+                self.game.running = False
+                
             
             
             
@@ -341,12 +404,18 @@ class StickFigureSprite(Sprite):
 class DoorSprite(Sprite):
     def __init__(self,game,photo_image,x,y,width,height):
         Sprite.__init__(self,game)
-        self.photo_image = photo_image
-        self.image = game.canvas.create_image(x, y, image = self.photo_image, anchor = 'nw')
+        self.closed_door = PhotoImage(file = 'Doorclosed-removebg-preview.gif')
+        self.open_door = PhotoImage(file = 'door_open-removebg-preview.gif')
+        self.image = game.canvas.create_image(x, y, image = self.closed_door, anchor = 'nw')
         self.coordinates = Coords(x, y, x + (width/2), y + height) #sets x and y positions and calculates x2 and y2 positions. it's also width/2 since
         # / we want char to stop running in FRONT of the door (when it hits x2, which will be at half of the door's width)
         self.endgame = True #when stickman reaches door, game ends
-       
+    def opendoor(self):
+        self.game.canvas.itemconfig(self.image, image=self.open_door)
+        self.game.tk.update_idletasks()
+    def closedoor(self):
+        self.game.canvas.itemconfig(self.image,image=self.closed_door)
+        self.game.tk.update_idletasks()
        
 
    
