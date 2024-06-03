@@ -1,5 +1,5 @@
 
-OLD VERSION - WITHOUT UPDATES TO CODE
+# OLD VERSION - WITHOUT UPDATES TO CODE (NOT the final project. newgame.py is the final)
 
 
 
