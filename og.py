@@ -5,7 +5,7 @@ Created on Tue May 28 09:24:34 2024
 @author: asrinivasan26
 """
 
-# DIFFERENT GIMMICKS LIKE MOVING PLATFORMS AND END GAME SCREEN
+# DIFFERENT GIMMICKS LIKE MOVING PLATFORMS AND END GAME SCREEN - NOT final (doesn't really work)
 
 from tkinter import *
 import random
