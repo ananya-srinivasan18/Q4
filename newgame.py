@@ -4,8 +4,7 @@ Created on Fri May 24 09:16:01 2024
 
 @author: asrinivasan26
 """
-
-#MOVES PLATFORMS, AND STOPS AFTER SECOND TIME WITH YOU WIN SCREEN
+# FINAL - INCLUDES A SECOND LEVEL AND A YOU WIN SCREEN
 
 from tkinter import *
 import random
@@ -38,7 +37,7 @@ class Game:
         #sets the variables (useful later)
         self.sprites = []
         self.running = True
-        self.game_over_text = self.canvas.create_text(250, 250, text='YOU WIN!', state='hidden')
+        self.game_over_text = self.canvas.create_text(260, 250, text='YOU WIN!', fill='white', state='hidden', font= ('Courier', 70, 'bold'))
 
         #self.testx = 0
 
