@@ -16,10 +16,10 @@ Week 4:
 - 282 ✅
 
 Week 5:
-- Adding extra gimmicks like moving platforms, etc
+- Adding extra gimmicks like moving platforms, etc ✅ - added a "you win" screen
 
 Week 6+7:
-- Final touches, adding more levels if time
+- Final touches, adding more levels if time ✅
 
 
-CURRENTLY: finished basic game, I'm just finishing up the Mid-Quarter presentation right now
+CURRENTLY: Finished entirely with game (as of now) and starting the final presentation
